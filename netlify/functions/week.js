@@ -9,7 +9,7 @@ export const handler = async (event) => {
     body,
     signature,
     timestamp,
-    process.env.DISCORD_PUBLIC_KEY
+    process.env.DISCORD_PUBLIC_KEY,
   );
 
   if (!isValid) {
@@ -27,16 +27,28 @@ export const handler = async (event) => {
   }
 
   if (interaction.type === 2 && interaction.data.name === "hét") {
+    console.log("event:", JSON.stringify(event));
     try {
       const res = await fetch("https://api.ymstnt.com/uwc");
-      const week = await res.text();
+      const data = await res.json();
+      let responseBody = "";
+
+      if (data.regWeek) {
+        responseBody = "Regisztrációs hét";
+      } else if (data.exam) {
+        responseBody = `Vizsgaidőszak - szünet (${data.daysLeft} nap van hátra)`;
+      } else if (data.study) {
+        responseBody = `Aktuális hét: **${data.week}. hét**`;
+      } else {
+        responseBody = `Szünet (${data.daysLeft} nap van hátra)`;
+      }
 
       return {
         statusCode: 200,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: 4,
-          data: { content: `Aktuális egyetemi hét: **${week}**` },
+          data: { content: responseBody },
         }),
       };
     } catch (err) {
