@@ -5,7 +5,6 @@ export const handler = async (event) => {
   const timestamp = event.headers["x-signature-timestamp"];
   const body = event.body;
 
-  // Signature verification
   const isValid = await verifyKey(
     body,
     signature,
@@ -19,12 +18,14 @@ export const handler = async (event) => {
 
   const interaction = JSON.parse(body);
 
-  // Ping válasz
   if (interaction.type === 1) {
-    return { statusCode: 200, body: JSON.stringify({ type: 1 }) };
+    return {
+      statusCode: 200,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: 1 }),
+    };
   }
 
-  // Slash command
   if (interaction.type === 2 && interaction.data.name === "hét") {
     try {
       const res = await fetch("https://api.ymstnt.com/uwc");
@@ -32,6 +33,7 @@ export const handler = async (event) => {
 
       return {
         statusCode: 200,
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: 4,
           data: { content: `Aktuális egyetemi hét: **${week}**` },
@@ -40,6 +42,7 @@ export const handler = async (event) => {
     } catch (err) {
       return {
         statusCode: 200,
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: 4,
           data: { content: "API hiba történt." },
