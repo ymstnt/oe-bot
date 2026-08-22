@@ -1,3 +1,5 @@
+import { buildEmbed } from "../utils/buildEmbed.js";
+
 export default {
   name: "időszakok",
   async execute() {
@@ -14,14 +16,16 @@ export default {
         day: "numeric",
       });
 
-    let msg = "";
-    if (sp) {
-      msg += `**Szorgalmi időszak**\n${formatDate(sp.start)} - ${formatDate(sp.end)} (${sp.semester})\n\n`;
-    }
-    if (ep) {
-      msg += `**Vizsgaidőszak**\n${formatDate(ep.start)} - ${formatDate(ep.end)} (${ep.semester})`;
-    }
+    let content = "";
+    if (sp) content += `**Szorgalmi időszak**\n${formatDate(sp.start)} - ${formatDate(sp.end)}\n\n`;
+    if (ep) content += `**Vizsgaidőszak**\n${formatDate(ep.start)} - ${formatDate(ep.end)}`;
+    
+    const semester = sp?.semester ?? "";
 
-    return msg || "Nincs aktív időszak.";
+    return buildEmbed({
+      title: "Időszakok",
+      content: content || "Nincs aktív időszak.",
+      footer: semester, 
+    });
   },
 };

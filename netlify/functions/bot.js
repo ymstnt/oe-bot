@@ -35,14 +35,11 @@ export const handler = async (event) => {
 
     if (cmd) {
       try {
-        const content = await cmd.execute();
+        const response = await cmd.execute();
         return {
           statusCode: 200,
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            type: 4,
-            data: { content },
-          }),
+          body: JSON.stringify(response),
         };
       } catch (err) {
         return {
