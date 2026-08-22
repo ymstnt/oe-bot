@@ -1,7 +1,8 @@
 import { verifyKey } from "discord-interactions";
 import week from "../commands/week.js";
+import periods from "../commands/periods.js";
 
-const commands = [week];
+const commands = [week, periods];
 
 export const handler = async (event) => {
   const signature = event.headers["x-signature-ed25519"];

@@ -9,7 +9,13 @@ await rest.put(Routes.applicationCommands(process.env.DISCORD_APP_ID), {
   body: [
     {
       name: "hét",
-      description: "Információt ad a jelenlegi hét számáról, a vizsgaidőszakból és a szünetből hátralévő napok számáról.",
+      description:
+        "Információt ad a jelenlegi hét számáról, a vizsgaidőszakból és a szünetből hátralévő napok számáról.",
+    },
+    {
+      name: "időszakok",
+      description:
+        "Megjeleníti az aktuális (vagy következő) félév szorgalmi- vagy vizsgaidőszakjának kezdetét és végét.",
     },
   ],
 });
