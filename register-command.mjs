@@ -1,11 +1,11 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import { REST, Routes } from "discord.js";
 
-const TOKEN = process.env.DISCORD_TOKEN;
-const APP_ID = process.env.DISCORD_APP_ID;
+const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN);
 
-const rest = new REST({ version: "10" }).setToken(TOKEN);
-
-await rest.put(Routes.applicationCommands(APP_ID), {
+await rest.put(Routes.applicationCommands(process.env.DISCORD_APP_ID), {
   body: [
     {
       name: "hét",
